@@ -9,7 +9,6 @@ apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
   name: wordpress
-  namespace: tak01
   labels:
     app: openshift-lesson
 spec:
