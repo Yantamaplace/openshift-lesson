@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: wordpress-mysql
   namespace: tak01
+  labels:
+    app: openshift-lesson
 spec:
   ports:
     - port: 3306 #Serviceの3306ポートへのアクセスをPodの3306ポートに紐づける。

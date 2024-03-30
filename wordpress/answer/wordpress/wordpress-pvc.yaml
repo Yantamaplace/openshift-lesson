@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: wp-pv-claim
   labels:
-    app: wordpress
+    app: openshift-lesson
 spec:
   accessModes:
     - ReadWriteOnce

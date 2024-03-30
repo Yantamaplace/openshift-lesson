@@ -1,0 +1,16 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: wordpress
+  namespace: tak01
+  labels:
+    app: openshift-lesson
+spec:
+  host: wordpress-tak01.apps.h6nreujn.eastus.aroapp.io
+  to:
+    kind: Service
+    name: wordpress
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: None
