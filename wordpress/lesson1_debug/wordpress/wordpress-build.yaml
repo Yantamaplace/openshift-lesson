@@ -1,0 +1,29 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: wordpress
+  namespace: tak01
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'wordpress:latest'
+  resources: {}
+  source:
+    git:
+      uri: 'https://github.com/asubee/wordpress-openshift'
+    type: Git
+    contextDir: /
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: 'php:8.0-ubi8'
+  postCommit: {}
+  triggers:
+    - type: ImageChange
+      imageChange: {}
+    - type: ConfigChange
+

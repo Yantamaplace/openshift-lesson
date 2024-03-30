@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-mysql
+  namespace: tak01
+spec:
+  ports:
+    - port: 3306 #Serviceの3306ポートへのアクセスをPodの3306ポートに紐づける。
+  selector:  #ServiceをどのPodと紐づけるかを指定するのがselector。ここではapp: wordpress/tier: mysqlラベルが付与されたPodを紐づけている。
+    app: mysql
+

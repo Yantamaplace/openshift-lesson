@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: tak01
+  name: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      volumes:
+      - name: wp-pv-volume
+        persistentVolumeClaim:
+          claimName: wp-pv-claim
+      containers:
+        - name: container
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/tak01/wordpress:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          env:
+          - name: DB_HAME
+            value: wordpress-mysql
+          - name: DB_HOST
+            value: wordpress-mysql
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret
+                key: mysql-password
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret
+                key: mysql-user
+          - name: WP_HOME
+            value: 'http://wordpress-tak01.apps.h6nreujn.eastus.aroapp.io/'
+          - name: WP_SITEURL
+            value: 'http://wordpress-tak01.apps.h6nreujn.eastus.aroapp.io/'
+          volumeMounts:
+            - name: wp-pv-volume
+              mountPath: /var/www/html
+
+
