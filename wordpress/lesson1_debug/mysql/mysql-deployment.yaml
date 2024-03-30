@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
+  labels:
+    app: openshift-lesson
 spec:
   replicas: 1
   selector:
@@ -21,6 +23,9 @@ spec:
       containers:
       - name: mysql
         image: mysql:latest
+        args:
+        - --character-set-server=utf8mb4
+        - --collation-server=utf8mb4_unicode_ci
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:

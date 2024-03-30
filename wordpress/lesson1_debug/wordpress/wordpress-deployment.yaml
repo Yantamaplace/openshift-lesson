@@ -1,8 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: tak01
   name: wordpress
+  labels:
+    app: openshift-lesson
 spec:
   selector:
     matchLabels:
@@ -29,8 +30,8 @@ spec:
           resources: {}
           terminationMessagePath: /dev/termination-log
           env:
-          - name: DB_HAME
-            value: wordpress-mysql
+          - name: DB_NAME
+            value: wordpress
           - name: DB_HOST
             value: wordpress-mysql
           - name: DB_PASSWORD

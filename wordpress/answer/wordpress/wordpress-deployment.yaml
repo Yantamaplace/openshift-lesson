@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: tak01
   name: wordpress
   labels:
     app: openshift-lesson
