@@ -16,10 +16,6 @@ spec:
       labels:
         app: mysql
     spec:
-      volumes:
-      - name: mysql-pvc
-        persistentVolumeClaim:
-          claimName: mysql-pvc
       containers:
       - name: mysql
         image: mysql:latest
@@ -49,6 +45,3 @@ spec:
         ports:
         - name: mysql
           containerPort: 3306
-        volumeMounts:
-        - name: mysql-pvc
-          mountPath: /var/lib/mysql
