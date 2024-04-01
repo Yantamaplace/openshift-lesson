@@ -16,12 +16,10 @@ spec:
     to:
       kind: ImageStreamTag
       name: 'wordpress:latest'
-  resources: {}
   source:
     git:
       uri: 'https://github.com/asubee/wordpress-openshift'
     type: Git
-    contextDir: /
   strategy:
     type: Source
     sourceStrategy:
@@ -29,7 +27,6 @@ spec:
         kind: ImageStreamTag
         namespace: openshift
         name: 'php:8.0-ubi8'
-  postCommit: {}
   triggers:
     - type: ImageChange
       imageChange: {}

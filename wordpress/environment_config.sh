@@ -11,13 +11,15 @@ menu_title=(
 [1]="リソース一覧を表示（プロジェクト全体）"
 [2]="リソース一覧を表示（特定のラベルのみ）"
 [3]="リソースの削除"
+[4]="OpenShiftへのログイン"
 )
 
 ### 実行コマンド
 menu_command=(
 [1]="show_all_resource_execute"
 [2]="show_specific_resource_execute"
-[3]="tail -f /var/log/httpd/error_log"
+[3]="delete_specifict_resource"
+[4]="login_openshift_cli"
 )
 
 
@@ -164,7 +166,7 @@ function show_specific_resource_execute(){
   echo "リソース一覧を表示（特定のラベルのみ）"
   # 削除したいレッスン名の入力（タグ名）
   echo "特定のラベルがついたリソースの一覧を取得します。ラベル名を入力してください。"
-  read -p 'ラベル名[app=openshift-lesson]:' lesson
+  read -ep 'ラベル名[app=openshift-lesson]:' lesson
 
   if [ -z $lesson ]; then
     lesson="app=openshift-lesson"
@@ -182,22 +184,22 @@ function delete_specifict_resource(){
   echo "現在ログインしているユーザ名 : $whoami"
   echo "現在使用しているプロジェクト : $current_project"
 
-  read -p "ログインしているユーザ名／使用するプロジェクト名はあっていますか？[Y/N] :" confirm
+  read -ep "ログインしているユーザ名／使用するプロジェクト名はあっていますか？[Y/N] :" confirm
 
-  while [ $confirm != 'Y' ] && [ $confirm != 'N' ]
+  while [ -z $confirm ] || ( [ $confirm != 'Y' ] && [ $confirm != 'N' ] )
   do
     echo "Y/Nで入力してください。"
-    read -p '[Y/N] :'  confirm
+    read -ep '[Y/N] :'  confirm
   done
 
   if [ $confirm = 'N' ]; then
     echo "正しいユーザでログインしてください。正しいプロジェクト設定を実施してください。"
-    exit 1
+    return
   fi
 
 # 削除したいレッスン名の入力（タグ名）
   echo "削除対象のリソース一覧を取得します。削除したいラベル名を入力してください。"
-  read -p 'ラベル名[app=openshift-lesson]:' lesson
+  read -ep 'ラベル名[app=openshift-lesson]:' lesson
 
   if [ -z $lesson ]; then
     lesson="app=openshift-lesson"
@@ -211,16 +213,16 @@ function delete_specifict_resource(){
 
 
 # リソースの削除
-  read -p "上記リソースを削除します。よろしいですか？[Y/N]" confirm
-  while [ $confirm != 'Y' ] && [ $confirm != 'N' ]
+  read -ep "上記リソースを削除します。よろしいですか？[Y/N]" confirm
+  while [ -z $confirm ] || (  [ $confirm != 'Y' ] && [ $confirm != 'N' ] )
   do
     echo "Y/Nで入力してください。"
-    read -p '[Y/N] :'  confirm
+    read -ep '[Y/N] :'  confirm
   done
 
   if [ $confirm = 'N' ]; then
     echo "処理を終了します。"
-    exit 1
+    return
   fi
 
   echo "リソースを削除しています。"
@@ -239,6 +241,64 @@ function delete_specifict_resource(){
 
 }
 
+function login_openshift_cli(){
+default_URL=https://api.h6nreujn.eastus.aroapp.io:6443/
+default_USER=ocurak0101
+
+  whoami=$(oc whoami)
+  echo "現在ログインしているユーザ名 : $whoami"
+  read -ep "ログインしているユーザ名はあっていますか？[Y/N] :" confirm
+  while [ -z $confirm ] || ( [ $confirm != 'Y' ] && [ $confirm != 'N' ] )
+  do
+    echo "Y/Nで入力してください。"
+    read -ep '[Y/N] :'  confirm
+  done
+
+  if [ $confirm = 'N' ]; then
+    echo "ログインするユーザIDを入力してください。"
+    read -ep "ユーザID[$default_USER] :" username
+
+    if [ -z $username ] ; then
+      username=$default_USER
+    fi
+    oc login -u $username $default_URL
+  fi
+
+  current_project=$(oc config view --minify -o 'jsonpath={..namespace}')
+  echo "現在使用しているプロジェクト : $current_project"
+  read -ep "使用するプロジェクト名はあっていますか？[Y/N] :" confirm
+  while [ -z $confirm ] || ( [ $confirm != 'Y' ] && [ $confirm != 'N' ] )
+  do
+    echo "Y/Nで入力してください。"
+    read -ep '[Y/N] :'  confirm
+  done
+
+  if [ $confirm = 'N' ]; then
+    echo "利用できるプロジェクト一覧"
+    oc get projects
+    echo "-----------------------------------------------------------"
+
+    echo "使用するプロジェクト名を入力してください。"
+    read -ep "プロジェクト名 ：" project_name
+    oc project $project_name
+    current_project=$(oc config view --minify -o 'jsonpath={..namespace}')
+    echo "現在使用しているプロジェクト : $current_project"
+  fi
+
+  whoami=$(oc whoami)
+  current_project=$(oc config view --minify -o 'jsonpath={..namespace}')
+  echo "処理を終了します。"
+  echo "-----------------------------------------------------------"
+  echo "現在ログインしているユーザ名 : $whoami"
+  echo "現在使用しているプロジェクト : $current_project"
+  echo "-----------------------------------------------------------"
+
+  return
+}
+
+
 # MAIN文 メニューの表示
 select_menu
+
+
 
