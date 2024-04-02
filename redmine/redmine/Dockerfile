@@ -7,13 +7,13 @@ ENV TZ Asia/Tokyo
 COPY ./redmine/redmine/plugins /usr/src/redmine/plugins
 
 # テーマのコピー
-COPY ./themes /usr/src/redmine/public/themes
+COPY ./redmine/redmine/themes /usr/src/redmine/public/themes
 
 # configurationファイルのコピー
-COPY ./config/configuration.yml /usr/src/redmine/config/
-COPY ./config/gantt.rb /usr/src/redmine/lib/redmine/helpers/
+COPY ./redmine/redmine/config/configuration.yml /usr/src/redmine/config/
+COPY ./redmine/redmine/config/gantt.rb /usr/src/redmine/lib/redmine/helpers/
 # macros.rbファイルのコピー
-COPY ./config/macros.rb /usr/src/redmine/lib/redmine/wiki_formatting/macros.rb
+COPY ./redmine/redmine/config/macros.rb /usr/src/redmine/lib/redmine/wiki_formatting/macros.rb
 
 RUN chgrp -R 0 /usr/src/redmine && chmod -R g=u /usr/src/redmine
 USER 1001

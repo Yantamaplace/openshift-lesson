@@ -13,14 +13,17 @@ metadata:
     app: redmine
 spec:
   source:
-    dockerfile: https://github.com/asubee/openshift-lesson.git
+    type: Git
+    git:
+      uri: https://github.com/asubee/openshift-lesson.git
   output:
     to:
       kind: ImageStreamTag
       name: 'redmine:latest'
   strategy:
+    type: Docker
     dockerStrategy:
-      dockerfilePath: ./redmine/redmine/Dockerfile
+      dockerfilePath: redmine/redmine/Dockerfile
       from:
         kind: DockerImage
         name: 'redmine:5.1'
