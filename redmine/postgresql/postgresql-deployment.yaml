@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: potgresql
+  labels:
+    app: redmine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      volumes:
+      - name: postgresql-pvc
+        persistentVolumeClaim:
+          claimName: postgresql-pvc
+      containers:
+      - name: postgresql
+        image: >-
+          image-registry.openshift-image-registry.svc:5000/openshift/postgresql:10-el8
+        env:
+        - name: POSTGRESQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: database-user
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: database-password
+        - name: POSTGRESQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secret
+              key: database-name
+        ports:
+        - name: postgresql
+          containerPort: 5432
+          protocol: TCP
+        volumeMounts:
+        - name: postgresql-pvc
+          mountPath: /var/lib/pgsql/data

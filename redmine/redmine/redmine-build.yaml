@@ -1,0 +1,31 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: redmines
+  labels:
+    app: redmine
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: redmine
+  labels:
+    app: redmine
+spec:
+  source:
+    dockerfile: "FROM redmine:5.1"
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'redmine:latest'
+  strategy:
+    dockerStrategy:
+      dockerfilePath: ./Dockerfile
+      from:
+        kind: DockerImage
+        name: 'redmine:5.1'
+  triggers:
+    - type: ImageChange
+      imageChange: {}
+    - type: ConfigChange
+

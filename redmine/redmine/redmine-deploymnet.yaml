@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redmine
+  labels:
+    app: redmine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redmine
+  template:
+    metadata:
+      labels:
+        app: redmine
+    spec:
+      volumes:
+      - name: redmine-pvc
+        persistentVolumeClaim:
+          claimName: redmine-pvc
+      containers:
+      - name: redmine
+        image: >-
+          image-registry.openshift-image-registry.svc:5000/tak01/redmine:latest
+        env:
+        - name: REDMINE_DB_POSTGRES
+          valueFrom:
+            secretKeyRef:
+              name: redmine-secret
+              key: redmine-db-postgres
+        - name: REDMINE_DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: redmine-secret
+              key: redmine-db-username
+        - name: REDMINE_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redmine-secret
+              key: redmine-db-password
+        - name: REDMINE_DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: redmine-secret
+              key: redmine-db-database
+        ports:
+        - name: redmine
+          containerPort: 3000
+          protocol: TCP
+        volumeMounts:
+        - name: redmine-pvc
+          mountPath: /usr/src/redmine/files

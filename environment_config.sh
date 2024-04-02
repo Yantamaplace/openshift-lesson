@@ -11,7 +11,7 @@ menu_title=(
 [1]="リソース一覧を表示（プロジェクト全体）"
 [2]="リソース一覧を表示（特定のラベルのみ）"
 [3]="リソースの削除"
-[4]="OpenShiftへのログイン"
+[4]="OpenShiftへのログイン/プロジェクト切替"
 )
 
 ### 実行コマンド
@@ -25,7 +25,13 @@ menu_command=(
 
 #メニュー表示
 function display_menu() {
+    echo "##### INFO #####"
+    whoami=$(oc whoami)
+    current_project=$(oc config view --minify -o 'jsonpath={..namespace}')
+    echo "現在ログインしているユーザ名 : $whoami"
+    echo "現在使用しているプロジェクト : $current_project"
     echo "##### MENU #####"
+
     IFS=$'\n'
     for key in ${!menu_title[@]}; do
         if [ "${menu_title[${key}]}" = "-" ]; then

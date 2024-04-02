@@ -1,0 +1,15 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: redmine
+  labels:
+    app: redmine
+spec:
+  host: redmine-tak01.apps.h6nreujn.eastus.aroapp.io
+  to:
+    kind: Service
+    name: redmine
+    weight: 100
+  port:
+    targetPort: 3000
+  wildcardPolicy: None
