@@ -1,7 +1,7 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
-  name: redmines
+  name: redmine
   labels:
     app: redmine
 ---
@@ -13,14 +13,14 @@ metadata:
     app: redmine
 spec:
   source:
-    dockerfile: "FROM redmine:5.1"
+    dockerfile: https://github.com/asubee/openshift-lesson.git
   output:
     to:
       kind: ImageStreamTag
       name: 'redmine:latest'
   strategy:
     dockerStrategy:
-      dockerfilePath: ./Dockerfile
+      dockerfilePath: ./redmine/redmine/Dockerfile
       from:
         kind: DockerImage
         name: 'redmine:5.1'
