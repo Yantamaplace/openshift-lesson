@@ -81,3 +81,7 @@ git clone https://github.com/asubee/openshift-lesson
 wordpressディレクトリ配下。
 answerフォルダは正しいマニュフェスト。それ以外はレッスン用。詳細は各フォルダ配下に入っているREADMEを参照してください。
 
+
+## OpenShiftへのログイン
+OCコマンドで、以下コマンドをたたき、OpenShiftにログインする。
+CLI oc login -u <ユーザ名> https://api.h6nreujn.eastus.aroapp.io:6443/
