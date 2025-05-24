@@ -5,7 +5,7 @@ metadata:
   labels:
     app: openshift-lesson
 spec:
-  host: wordpress-tak01.apps.h6nreujn.eastus.aroapp.io
+  host: wordpress-ttg01.apps.h6nreujn.eastus.aroapp.io
   to:
     kind: Service
     name: wordpress
