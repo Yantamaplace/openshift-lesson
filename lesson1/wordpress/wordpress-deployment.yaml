@@ -21,7 +21,7 @@ spec:
       containers:
         - name: container
           image: >-
-            image-registry.openshift-image-registry.svc:5000/tak01/wordpress:latest
+            image-registry.openshift-image-registry.svc:5000/ttg01/wordpress:latest
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -45,9 +45,9 @@ spec:
                 name: mysql-secret
                 key: mysql-user
           - name: WP_HOME
-            value: 'http://wordpress-tak01.apps.h6nreujn.eastus.aroapp.io/'
+            value: 'http://wordpress-ttg01.apps.h6nreujn.eastus.aroapp.io/'
           - name: WP_SITEURL
-            value: 'http://wordpress-tak01.apps.h6nreujn.eastus.aroapp.io/'
+            value: 'http://wordpress-ttg01.apps.h6nreujn.eastus.aroapp.io/'
           volumeMounts:
             - name: wp-pv-volume
               mountPath: /var/www/html
