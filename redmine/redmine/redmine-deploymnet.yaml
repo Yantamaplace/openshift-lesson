@@ -21,7 +21,7 @@ spec:
       containers:
       - name: redmine
         image: >-
-          image-registry.openshift-image-registry.svc:5000/tak01/redmine:latest
+          image-registry.openshift-image-registry.svc:5000/ttg01/redmine:latest
         env:
         - name: REDMINE_DB_POSTGRES
           valueFrom:

@@ -5,7 +5,7 @@ metadata:
   labels:
     app: redmine
 spec:
-  host: redmine-tak01.apps.h6nreujn.eastus.aroapp.io
+  host: redmine-ttg01.apps.h6nreujn.eastus.aroapp.io
   to:
     kind: Service
     name: redmine

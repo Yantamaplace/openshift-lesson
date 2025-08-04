@@ -15,7 +15,7 @@ spec:
   source:
     type: Git
     git:
-      uri: https://github.com/asubee/openshift-lesson.git
+      uri: https://github.com/Yantamaplace/openshift-lesson.git
   output:
     to:
       kind: ImageStreamTag
