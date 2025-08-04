@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: redmine
   labels:
-    app: redminen
+    app: redmine
 spec:
   ports:
     - port: 3000
