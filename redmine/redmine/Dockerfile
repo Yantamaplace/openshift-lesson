@@ -19,4 +19,4 @@ RUN chgrp -R 0 /usr/src/redmine && chmod -R g=u /usr/src/redmine
 USER 1001
 ENTRYPOINT ["/docker-entrypoint.sh"]
 EXPOSE map[3000/tcp:{}]
-CMD ["rails" "server" "-b" "0.0.0.0"]
+CMD ["rails","server","-b","0.0.0.0"]
