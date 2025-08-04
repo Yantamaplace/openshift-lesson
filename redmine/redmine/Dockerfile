@@ -4,14 +4,14 @@ FROM redmine:5.1
 ENV TZ Asia/Tokyo
 
 # プラグインのコピー
-COPY ./redmine/redmine/plugins /usr/src/redmine/plugins
+#COPY ./redmine/redmine/plugins /usr/src/redmine/plugins
 
 # テーマのコピー
 COPY ./redmine/redmine/themes /usr/src/redmine/public/themes
 
 # configurationファイルのコピー
 COPY ./redmine/redmine/config/configuration.yml /usr/src/redmine/config/
-COPY ./redmine/redmine/config/gantt.rb /usr/src/redmine/lib/redmine/helpers/
+#COPY ./redmine/redmine/config/gantt.rb /usr/src/redmine/lib/redmine/helpers/
 
 # macros.rbファイルのコピー
 COPY ./redmine/redmine/config/macros.rb /usr/src/redmine/lib/redmine/wiki_formatting/macros.rb
